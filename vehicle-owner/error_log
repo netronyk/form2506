@@ -1,0 +1,56 @@
+[24-Jun-2025 12:25:30 Asia/Jerusalem] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'q.status' in 'field list' in /home/netrons1/public_html/nahagim/form/config/database.php:45
+Stack trace:
+#0 /home/netrons1/public_html/nahagim/form/config/database.php(54): Database->query('SELECT \r\n      ...', Array)
+#1 /home/netrons1/public_html/nahagim/form/vehicle-owner/dashboard.php(27): Database->fetchOne('SELECT \r\n      ...', Array)
+#2 {main}
+  thrown in /home/netrons1/public_html/nahagim/form/config/database.php on line 45
+[24-Jun-2025 12:28:29 Asia/Jerusalem] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'q.status' in 'field list' in /home/netrons1/public_html/nahagim/form/config/database.php:45
+Stack trace:
+#0 /home/netrons1/public_html/nahagim/form/config/database.php(54): Database->query('SELECT \r\n      ...', Array)
+#1 /home/netrons1/public_html/nahagim/form/vehicle-owner/profile.php(50): Database->fetchOne('SELECT \r\n      ...', Array)
+#2 {main}
+  thrown in /home/netrons1/public_html/nahagim/form/config/database.php on line 45
+[24-Jun-2025 14:32:17 Asia/Jerusalem] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'q.status' in 'field list' in /home/netrons1/public_html/nahagim/form/config/database.php:45
+Stack trace:
+#0 /home/netrons1/public_html/nahagim/form/config/database.php(54): Database->query('SELECT \r\n      ...', Array)
+#1 /home/netrons1/public_html/nahagim/form/vehicle-owner/profile.php(50): Database->fetchOne('SELECT \r\n      ...', Array)
+#2 {main}
+  thrown in /home/netrons1/public_html/nahagim/form/config/database.php on line 45
+[24-Jun-2025 14:34:54 Asia/Jerusalem] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'q.quote_status' in 'field list' in /home/netrons1/public_html/nahagim/form/config/database.php:45
+Stack trace:
+#0 /home/netrons1/public_html/nahagim/form/config/database.php(54): Database->query('SELECT \r\n      ...', Array)
+#1 /home/netrons1/public_html/nahagim/form/vehicle-owner/profile.php(50): Database->fetchOne('SELECT \r\n      ...', Array)
+#2 {main}
+  thrown in /home/netrons1/public_html/nahagim/form/config/database.php on line 45
+[24-Jun-2025 14:37:36 Asia/Jerusalem] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'r.overall_rating' in 'field list' in /home/netrons1/public_html/nahagim/form/config/database.php:45
+Stack trace:
+#0 /home/netrons1/public_html/nahagim/form/config/database.php(54): Database->query('SELECT \r\n      ...', Array)
+#1 /home/netrons1/public_html/nahagim/form/vehicle-owner/profile.php(50): Database->fetchOne('SELECT \r\n      ...', Array)
+#2 {main}
+  thrown in /home/netrons1/public_html/nahagim/form/config/database.php on line 45
+[24-Jun-2025 14:38:04 Asia/Jerusalem] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'r.overall_rating' in 'field list' in /home/netrons1/public_html/nahagim/form/config/database.php:45
+Stack trace:
+#0 /home/netrons1/public_html/nahagim/form/config/database.php(54): Database->query('SELECT \r\n      ...', Array)
+#1 /home/netrons1/public_html/nahagim/form/vehicle-owner/profile.php(50): Database->fetchOne('SELECT \r\n      ...', Array)
+#2 {main}
+  thrown in /home/netrons1/public_html/nahagim/form/config/database.php on line 45
+[24-Jun-2025 14:39:48 Asia/Jerusalem] PHP Warning:  require_once(/home/netrons1/public_html/nahagim/form/includes/WhatsApp.php): failed to open stream: No such file or directory in /home/netrons1/public_html/nahagim/form/includes/notification-settings.php on line 4
+[24-Jun-2025 14:39:48 Asia/Jerusalem] PHP Fatal error:  require_once(): Failed opening required '/home/netrons1/public_html/nahagim/form/includes/WhatsApp.php' (include_path='.:/opt/alt/php74/usr/share/pear') in /home/netrons1/public_html/nahagim/form/includes/notification-settings.php on line 4
+[24-Jun-2025 15:01:49 Asia/Jerusalem] PHP Warning:  require_once(/home/netrons1/public_html/nahagim/form/includes/WhatsApp.php): failed to open stream: No such file or directory in /home/netrons1/public_html/nahagim/form/includes/notification-settings.php on line 4
+[24-Jun-2025 15:01:49 Asia/Jerusalem] PHP Fatal error:  require_once(): Failed opening required '/home/netrons1/public_html/nahagim/form/includes/WhatsApp.php' (include_path='.:/opt/alt/php74/usr/share/pear') in /home/netrons1/public_html/nahagim/form/includes/notification-settings.php on line 4
+[24-Jun-2025 15:01:55 Asia/Jerusalem] PHP Warning:  require_once(/home/netrons1/public_html/nahagim/form/includes/WhatsApp.php): failed to open stream: No such file or directory in /home/netrons1/public_html/nahagim/form/includes/notification-settings.php on line 4
+[24-Jun-2025 15:01:55 Asia/Jerusalem] PHP Fatal error:  require_once(): Failed opening required '/home/netrons1/public_html/nahagim/form/includes/WhatsApp.php' (include_path='.:/opt/alt/php74/usr/share/pear') in /home/netrons1/public_html/nahagim/form/includes/notification-settings.php on line 4
+[24-Jun-2025 15:02:01 Asia/Jerusalem] PHP Warning:  require_once(/home/netrons1/public_html/nahagim/form/includes/WhatsApp.php): failed to open stream: No such file or directory in /home/netrons1/public_html/nahagim/form/includes/notification-settings.php on line 4
+[24-Jun-2025 15:02:01 Asia/Jerusalem] PHP Fatal error:  require_once(): Failed opening required '/home/netrons1/public_html/nahagim/form/includes/WhatsApp.php' (include_path='.:/opt/alt/php74/usr/share/pear') in /home/netrons1/public_html/nahagim/form/includes/notification-settings.php on line 4
+[24-Jun-2025 15:02:06 Asia/Jerusalem] PHP Warning:  require_once(/home/netrons1/public_html/nahagim/form/includes/WhatsApp.php): failed to open stream: No such file or directory in /home/netrons1/public_html/nahagim/form/includes/notification-settings.php on line 4
+[24-Jun-2025 15:02:06 Asia/Jerusalem] PHP Fatal error:  require_once(): Failed opening required '/home/netrons1/public_html/nahagim/form/includes/WhatsApp.php' (include_path='.:/opt/alt/php74/usr/share/pear') in /home/netrons1/public_html/nahagim/form/includes/notification-settings.php on line 4
+[24-Jun-2025 16:21:49 Asia/Jerusalem] PHP Warning:  require_once(/home/netrons1/public_html/nahagim/form/includes/WhatsApp.php): failed to open stream: No such file or directory in /home/netrons1/public_html/nahagim/form/includes/notification-settings.php on line 4
+[24-Jun-2025 16:21:49 Asia/Jerusalem] PHP Fatal error:  require_once(): Failed opening required '/home/netrons1/public_html/nahagim/form/includes/WhatsApp.php' (include_path='.:/opt/alt/php74/usr/share/pear') in /home/netrons1/public_html/nahagim/form/includes/notification-settings.php on line 4
+[24-Jun-2025 16:22:55 Asia/Jerusalem] PHP Warning:  require_once(/home/netrons1/public_html/nahagim/form/includes/WhatsApp.php): failed to open stream: No such file or directory in /home/netrons1/public_html/nahagim/form/includes/notification-settings.php on line 4
+[24-Jun-2025 16:22:55 Asia/Jerusalem] PHP Fatal error:  require_once(): Failed opening required '/home/netrons1/public_html/nahagim/form/includes/WhatsApp.php' (include_path='.:/opt/alt/php74/usr/share/pear') in /home/netrons1/public_html/nahagim/form/includes/notification-settings.php on line 4
+[24-Jun-2025 16:23:57 Asia/Jerusalem] PHP Warning:  require_once(/home/netrons1/public_html/nahagim/form/includes/WhatsApp.php): failed to open stream: No such file or directory in /home/netrons1/public_html/nahagim/form/includes/notification-settings.php on line 4
+[24-Jun-2025 16:23:57 Asia/Jerusalem] PHP Fatal error:  require_once(): Failed opening required '/home/netrons1/public_html/nahagim/form/includes/WhatsApp.php' (include_path='.:/opt/alt/php74/usr/share/pear') in /home/netrons1/public_html/nahagim/form/includes/notification-settings.php on line 4
+[24-Jun-2025 16:24:07 Asia/Jerusalem] PHP Warning:  require_once(/home/netrons1/public_html/nahagim/form/includes/WhatsApp.php): failed to open stream: No such file or directory in /home/netrons1/public_html/nahagim/form/includes/notification-settings.php on line 4
+[24-Jun-2025 16:24:07 Asia/Jerusalem] PHP Fatal error:  require_once(): Failed opening required '/home/netrons1/public_html/nahagim/form/includes/WhatsApp.php' (include_path='.:/opt/alt/php74/usr/share/pear') in /home/netrons1/public_html/nahagim/form/includes/notification-settings.php on line 4
+[24-Jun-2025 16:27:04 Asia/Jerusalem] PHP Warning:  require_once(/home/netrons1/public_html/nahagim/form/includes/WhatsApp.php): failed to open stream: No such file or directory in /home/netrons1/public_html/nahagim/form/includes/notification-settings.php on line 4
+[24-Jun-2025 16:27:04 Asia/Jerusalem] PHP Fatal error:  require_once(): Failed opening required '/home/netrons1/public_html/nahagim/form/includes/WhatsApp.php' (include_path='.:/opt/alt/php74/usr/share/pear') in /home/netrons1/public_html/nahagim/form/includes/notification-settings.php on line 4

@@ -1,0 +1,7 @@
+[21-Jun-2025 11:08:14 Asia/Jerusalem] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY093]: Invalid parameter number in /home/netrons1/public_html/nahagim/form/config/database.php:45
+Stack trace:
+#0 /home/netrons1/public_html/nahagim/form/config/database.php(54): Database->query('SELECT status, ...', Array)
+#1 /home/netrons1/public_html/nahagim/form/models/Order.php(142): Database->fetchOne('SELECT status, ...', Array)
+#2 /home/netrons1/public_html/nahagim/form/customer/orders.php(101): Order->canEditOrder('1', '13')
+#3 {main}
+  thrown in /home/netrons1/public_html/nahagim/form/config/database.php on line 45

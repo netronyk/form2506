@@ -1,0 +1,135 @@
+# .htaccess - נהגים מערכת הזמנות
+
+# הפעלת Rewrite Engine
+RewriteEngine On
+
+# הפעלת Follow Symlinks
+Options +FollowSymLinks
+
+# הגדרת קידוד UTF-8
+AddDefaultCharset UTF-8
+
+# ביטחון - הסתרת קבצי מערכת
+<Files "*.ini">
+    Require all denied
+</Files>
+
+<Files "*.log">
+    Require all denied
+</Files>
+
+<Files "*.sql">
+    Require all denied
+</Files>
+
+<Files ".env">
+    Require all denied
+</Files>
+
+# הגנה על תיקיות רגישות
+<Directory "config">
+    Require all denied
+</Directory>
+
+<Directory "includes">
+    Require all denied
+</Directory>
+
+<Directory "models">
+    Require all denied
+</Directory>
+
+# headers ביטחון
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options nosniff
+    Header always set X-Frame-Options SAMEORIGIN
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# דחיסת קבצים
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
+</IfModule>
+
+# Cache control
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType image/png "access plus 1 month"
+    ExpiresByType image/jpg "access plus 1 month"
+    ExpiresByType image/jpeg "access plus 1 month"
+    ExpiresByType image/gif "access plus 1 month"
+    ExpiresByType image/svg+xml "access plus 1 month"
+</IfModule>
+
+# הפניות נקיות - Clean URLs
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# API routes
+RewriteRule ^api/([^/]+)/?$ api/$1.php [QSA,L]
+
+# Admin routes
+RewriteRule ^admin/?$ admin/dashboard.php [QSA,L]
+RewriteRule ^admin/([^/]+)/?$ admin/$1.php [QSA,L]
+
+# Vehicle owner routes
+RewriteRule ^vehicle-owner/?$ vehicle-owner/dashboard.php [QSA,L]
+RewriteRule ^vehicle-owner/([^/]+)/?$ vehicle-owner/$1.php [QSA,L]
+
+# Customer routes
+RewriteRule ^customer/?$ customer/dashboard.php [QSA,L]
+RewriteRule ^customer/([^/]+)/?$ customer/$1.php [QSA,L]
+
+# Main routes
+RewriteRule ^login/?$ login.php [QSA,L]
+RewriteRule ^register/?$ register.php [QSA,L]
+RewriteRule ^logout/?$ logout.php [QSA,L]
+RewriteRule ^dashboard/?$ dashboard.php [QSA,L]
+
+# הפניה מ-www ל-non-www (אופציונלי)
+# RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+# RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+# הפניה ל-HTTPS (אופציונלי)
+# RewriteCond %{HTTPS} off
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# דפי שגיאה מותאמים
+ErrorDocument 404 /404.php
+ErrorDocument 403 /403.php
+ErrorDocument 500 /500.php
+
+# הגבלת גישה לקבצי PHP בתיקיית uploads
+<Directory "uploads">
+    <Files "*.php">
+        Require all denied
+    </Files>
+</Directory>
+
+# הגדרות PHP
+<IfModule mod_php7.c>
+    php_value upload_max_filesize 10M
+    php_value post_max_size 10M
+    php_value max_execution_time 300
+    php_value max_input_vars 3000
+    php_value memory_limit 256M
+</IfModule>
+
+<IfModule mod_php8.c>
+    php_value upload_max_filesize 10M
+    php_value post_max_size 10M
+    php_value max_execution_time 300
+    php_value max_input_vars 3000
+    php_value memory_limit 256M
+</IfModule>

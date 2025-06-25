@@ -1,0 +1,7 @@
+[21-Jun-2025 11:11:18 Asia/Jerusalem] PHP Fatal error:  Uncaught Error: Call to undefined method Order::getOrderStats() in /home/netrons1/public_html/nahagim/form/admin/orders.php:48
+Stack trace:
+#0 {main}
+  thrown in /home/netrons1/public_html/nahagim/form/admin/orders.php on line 48
+[24-Jun-2025 07:11:26 UTC] PHP Parse error:  syntax error, unexpected end of file, expecting elseif (T_ELSEIF) or else (T_ELSE) or endif (T_ENDIF) in /home/netrons1/public_html/nahagim/form/admin/users.php on line 486
+[24-Jun-2025 07:11:31 UTC] PHP Parse error:  syntax error, unexpected end of file, expecting elseif (T_ELSEIF) or else (T_ELSE) or endif (T_ENDIF) in /home/netrons1/public_html/nahagim/form/admin/users.php on line 486
+[24-Jun-2025 11:27:21 Asia/Jerusalem] PHP Fatal error:  Cannot redeclare User::activatePremium() in /home/netrons1/public_html/nahagim/form/models/User.php on line 303
