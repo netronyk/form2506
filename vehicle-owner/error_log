@@ -54,3 +54,7 @@ Stack trace:
 [24-Jun-2025 16:24:07 Asia/Jerusalem] PHP Fatal error:  require_once(): Failed opening required '/home/netrons1/public_html/nahagim/form/includes/WhatsApp.php' (include_path='.:/opt/alt/php74/usr/share/pear') in /home/netrons1/public_html/nahagim/form/includes/notification-settings.php on line 4
 [24-Jun-2025 16:27:04 Asia/Jerusalem] PHP Warning:  require_once(/home/netrons1/public_html/nahagim/form/includes/WhatsApp.php): failed to open stream: No such file or directory in /home/netrons1/public_html/nahagim/form/includes/notification-settings.php on line 4
 [24-Jun-2025 16:27:04 Asia/Jerusalem] PHP Fatal error:  require_once(): Failed opening required '/home/netrons1/public_html/nahagim/form/includes/WhatsApp.php' (include_path='.:/opt/alt/php74/usr/share/pear') in /home/netrons1/public_html/nahagim/form/includes/notification-settings.php on line 4
+[25-Jun-2025 08:25:52 Asia/Jerusalem] PHP Fatal error:  Uncaught Error: Call to undefined method Vehicle::getVehicleWorkTypes() in /home/netrons1/public_html/nahagim/form/vehicle-owner/vehicles.php:242
+Stack trace:
+#0 {main}
+  thrown in /home/netrons1/public_html/nahagim/form/vehicle-owner/vehicles.php on line 242

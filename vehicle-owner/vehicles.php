@@ -1,5 +1,5 @@
 <?php
-// vehicle-owner/vehicles.php - ניהול רכבים עם התראות ווטסאפ
+// vehicle-owner/vehicles.php - ניהול רכבים עם תחומי פעילות
 require_once __DIR__ . '/../config/settings.php';
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../includes/auth.php';
@@ -76,6 +76,83 @@ if ($action === 'edit' && $id) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>הרכבים שלי - <?php echo SITE_NAME; ?></title>
     <link rel="stylesheet" href="../assets/css/style.css">
+    <style>
+        .work-types-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+        
+        .work-type-item {
+            margin-bottom: 8px;
+            padding: 8px;
+            background: white;
+            border-radius: 5px;
+            border: 1px solid #e0e0e0;
+            transition: all 0.2s ease;
+        }
+        
+        .work-type-item:hover {
+            background-color: #f0f8ff;
+        }
+        
+        .work-type-item.selected {
+            background-color: #e8f5e8 !important;
+            border-color: #28a745;
+        }
+        
+        .work-type-label {
+            display: flex;
+            align-items: flex-start;
+            font-weight: normal;
+            margin: 0;
+            cursor: pointer;
+            line-height: 1.4;
+        }
+        
+        .work-type-checkbox {
+            margin-left: 10px;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+        
+        .work-type-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 2px;
+        }
+        
+        .work-type-description {
+            font-size: 0.85rem;
+            color: #666;
+        }
+        
+        .work-type-badge {
+            display: inline-block;
+            background: #e3f2fd;
+            color: #1565c0;
+            padding: 0.2rem 0.5rem;
+            border-radius: 10px;
+            margin: 0.1rem;
+            font-size: 0.75rem;
+        }
+        
+        .work-type-badge.main {
+            background: #e8f5e8;
+            color: #155724;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            margin: 0.2rem;
+            font-size: 0.85rem;
+            border: 1px solid #c3e6cb;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar">
@@ -160,6 +237,27 @@ if ($action === 'edit' && $id) {
                                     <p><strong>קטגוריה:</strong> <?php echo htmlspecialchars($v['sub_category_name']); ?></p>
                                     <p><strong>תיאור:</strong> <?php echo htmlspecialchars($v['description'] ?? 'אין תיאור'); ?></p>
                                     
+                                    <?php 
+                                    // קבלת תחומי פעילות לכל רכב
+                                    $vehicleWorkTypes = $vehicle->getVehicleWorkTypes($v['id']);
+                                    if (!empty($vehicleWorkTypes)): 
+                                    ?>
+                                    <p><strong>🔧 תחומי פעילות:</strong></p>
+                                    <div style="margin-bottom: 0.5rem;">
+                                        <?php 
+                                        $displayedWorkTypes = array_slice($vehicleWorkTypes, 0, 3); // הצג רק 3 ראשונים
+                                        foreach ($displayedWorkTypes as $workType): 
+                                        ?>
+                                            <span class="work-type-badge">
+                                                <?php echo htmlspecialchars($workType['work_name']); ?>
+                                            </span>
+                                        <?php endforeach; ?>
+                                        <?php if (count($vehicleWorkTypes) > 3): ?>
+                                            <span style="font-size: 0.75rem; color: #666;">+<?php echo count($vehicleWorkTypes) - 3; ?> נוספים</span>
+                                        <?php endif; ?>
+                                    </div>
+                                    <?php endif; ?>
+                                    
                                     <?php if (isset($v['is_on_drivers_website']) && $v['is_on_drivers_website']): ?>
                                         <div style="margin: 0.5rem 0; padding: 0.5rem; background: #e8f5e8; border-radius: 4px;">
                                             <small style="color: #28a745;">
@@ -231,6 +329,22 @@ if ($action === 'edit' && $id) {
                             </select>
                         </div>
                         
+                        <!-- סוגי עבודות - חדש! -->
+                        <div id="workTypesSection" style="display: none; margin-bottom: 1rem;">
+                            <div class="form-group">
+                                <label class="form-label">תחומי הפעילות שהרכב יכול לבצע *</label>
+                                <p style="color: #666; font-size: 0.9rem; margin-bottom: 1rem;">
+                                    בחר את סוגי העבודות שהרכב שלך יכול לבצע. זה יעזור ללקוחות למצוא אותך בחיפושים רלוונטיים.
+                                </p>
+                                <div id="workTypesContainer" class="work-types-grid">
+                                    <!-- סוגי עבודות יטענו כאן דינמית -->
+                                </div>
+                                <small class="form-text text-muted" style="display: block; margin-top: 0.5rem;">
+                                    💡 בחירת תחומי פעילות רלוונטיים תגדיל את הסיכוי שלך לקבל הזמנות מתאימות
+                                </small>
+                            </div>
+                        </div>
+                        
                         <div class="form-group">
                             <label class="form-label">תיאור הרכב</label>
                             <textarea name="description" class="form-control" rows="4" 
@@ -272,13 +386,25 @@ if ($action === 'edit' && $id) {
                                         <label><input type="checkbox" name="activity_areas[]" value="1"> צפון</label>
                                     </div>
                                     <div class="col-3">
-                                        <label><input type="checkbox" name="activity_areas[]" value="2"> מרכז</label>
+                                        <label><input type="checkbox" name="activity_areas[]" value="2"> חיפה והקריות</label>
                                     </div>
                                     <div class="col-3">
-                                        <label><input type="checkbox" name="activity_areas[]" value="3"> דרום</label>
+                                        <label><input type="checkbox" name="activity_areas[]" value="3"> שרון</label>
                                     </div>
                                     <div class="col-3">
-                                        <label><input type="checkbox" name="activity_areas[]" value="4"> ירושלים</label>
+                                        <label><input type="checkbox" name="activity_areas[]" value="4"> תל אביב והמרכז</label>
+                                    </div>
+                                    <div class="col-3">
+                                        <label><input type="checkbox" name="activity_areas[]" value="5"> ירושלים והסביבה</label>
+                                    </div>
+                                    <div class="col-3">
+                                        <label><input type="checkbox" name="activity_areas[]" value="6"> שפלה</label>
+                                    </div>
+                                    <div class="col-3">
+                                        <label><input type="checkbox" name="activity_areas[]" value="7"> דרום</label>
+                                    </div>
+                                    <div class="col-3">
+                                        <label><input type="checkbox" name="activity_areas[]" value="8"> אילת</label>
                                     </div>
                                 </div>
                             </div>
@@ -328,6 +454,17 @@ if ($action === 'edit' && $id) {
                                 <h4>פרטי הרכב</h4>
                                 <p><strong>קטגוריה:</strong> <?php echo htmlspecialchars($viewVehicle['main_category_name']); ?> > <?php echo htmlspecialchars($viewVehicle['sub_category_name']); ?></p>
                                 <p><strong>תיאור:</strong> <?php echo htmlspecialchars($viewVehicle['description'] ?? 'אין תיאור'); ?></p>
+                                
+                                <?php if (!empty($viewVehicle['work_types'])): ?>
+                                <h5>🔧 תחומי פעילות</h5>
+                                <div style="margin-bottom: 1rem;">
+                                    <?php foreach ($viewVehicle['work_types'] as $workType): ?>
+                                        <span class="work-type-badge main">
+                                            ✅ <?php echo htmlspecialchars($workType['work_name']); ?>
+                                        </span>
+                                    <?php endforeach; ?>
+                                </div>
+                                <?php endif; ?>
                                 
                                 <?php if (isset($viewVehicle['is_on_drivers_website']) && $viewVehicle['is_on_drivers_website']): ?>
                                     <div style="margin: 1rem 0; padding: 1rem; background: #e8f5e8; border-radius: 8px;">
@@ -384,7 +521,7 @@ if ($action === 'edit' && $id) {
                                     <p>עדיין אין ביקורות</p>
                                 <?php endif; ?>
                                 
-                                <!-- הזמנות קשורות -->
+                                <!-- סטטיסטיקות -->
                                 <div style="margin-top: 1.5rem; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
                                     <h5>📊 סטטיסטיקות</h5>
                                     <p><strong>הצעות שנשלחו:</strong> <?php echo rand(0, 15); ?></p>
@@ -405,7 +542,7 @@ if ($action === 'edit' && $id) {
             const urlGroup = document.getElementById('driversWebsiteUrlGroup');
             const urlInput = document.getElementById('driversWebsiteUrl');
             
-            if (checkbox.checked) {
+            if (checkbox?.checked) {
                 urlGroup.style.display = 'block';
                 urlInput.required = true;
             } else {
@@ -414,35 +551,101 @@ if ($action === 'edit' && $id) {
                 urlInput.value = '';
             }
         }
-
-        // טעינה ראשונית
-        document.addEventListener('DOMContentLoaded', function() {
-            toggleDriversWebsiteUrl();
-        });
         
         function loadSubCategories() {
             const mainCategoryId = document.getElementById('mainCategory').value;
             const subCategorySelect = document.getElementById('subCategory');
+            const workTypesSection = document.getElementById('workTypesSection');
+            const workTypesContainer = document.getElementById('workTypesContainer');
             
+            // איפוס
             subCategorySelect.innerHTML = '<option value="">בחר תת קטגוריה</option>';
+            workTypesSection.style.display = 'none';
+            workTypesContainer.innerHTML = '';
+            document.getElementById('technicalAttributes').style.display = 'none';
             
-            if (!mainCategoryId) {
-                document.getElementById('technicalAttributes').style.display = 'none';
-                return;
-            }
+            if (!mainCategoryId) return;
             
             fetch(`../api/categories.php?action=get_sub_categories&main_id=${mainCategoryId}`)
                 .then(response => response.json())
                 .then(data => {
+                    // טעינת תת קטגוריות
                     if (data.sub_categories) {
                         data.sub_categories.forEach(sub => {
                             const option = document.createElement('option');
                             option.value = sub.id;
                             option.textContent = sub.name;
+                            <?php if ($action === 'edit' && isset($editVehicle)): ?>
+                            if (sub.id == '<?php echo $editVehicle['sub_category_id']; ?>') {
+                                option.selected = true;
+                            }
+                            <?php endif; ?>
                             subCategorySelect.appendChild(option);
                         });
                     }
-                });
+                    
+                    // טעינת סוגי עבודות - חדש!
+                    if (data.work_types && data.work_types.length > 0) {
+                        workTypesSection.style.display = 'block';
+                        workTypesContainer.innerHTML = '';
+                        
+                        data.work_types.forEach(work => {
+                            const div = document.createElement('div');
+                            div.className = 'work-type-item';
+                            
+                            const isChecked = selectedWorkTypes.includes(work.id) ? 'checked' : '';
+                            
+                            div.innerHTML = `
+                                <label class="work-type-label">
+                                    <input type="checkbox" name="work_types[]" value="${work.id}" ${isChecked} 
+                                           class="work-type-checkbox">
+                                    <div>
+                                        <div class="work-type-name">${work.work_name}</div>
+                                        ${work.description ? `<div class="work-type-description">${work.description}</div>` : ''}
+                                    </div>
+                                </label>
+                            `;
+                            
+                            // הוספת אפקט hover
+                            div.addEventListener('mouseenter', function() {
+                                if (!this.classList.contains('selected')) {
+                                    this.style.backgroundColor = '#f0f8ff';
+                                }
+                            });
+                            div.addEventListener('mouseleave', function() {
+                                if (!this.classList.contains('selected')) {
+                                    this.style.backgroundColor = 'white';
+                                }
+                            });
+                            
+                            workTypesContainer.appendChild(div);
+                        });
+                        
+                        // הוספת אפקט לבחירת checkbox
+                        workTypesContainer.addEventListener('change', function(e) {
+                            if (e.target.type === 'checkbox') {
+                                const div = e.target.closest('.work-type-item');
+                                if (e.target.checked) {
+                                    div.classList.add('selected');
+                                } else {
+                                    div.classList.remove('selected');
+                                }
+                            }
+                        });
+                        
+                        // סימון פריטים שנבחרו (לעריכה)
+                        setTimeout(() => {
+                            selectedWorkTypes.forEach(id => {
+                                const checkbox = document.querySelector(`input[name="work_types[]"][value="${id}"]`);
+                                if (checkbox) {
+                                    checkbox.checked = true;
+                                    checkbox.closest('.work-type-item').classList.add('selected');
+                                }
+                            });
+                        }, 100);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
         }
         
         function loadTechnicalAttributes() {
@@ -501,18 +704,61 @@ if ($action === 'edit' && $id) {
                 });
         }
         
-        document.getElementById('subCategory').addEventListener('change', loadTechnicalAttributes);
+        document.getElementById('subCategory')?.addEventListener('change', loadTechnicalAttributes);
         
-        // טעינה ראשונית אם עורכים רכב קיים
+        // הגדרת משתנה לעריכה
         <?php if ($action === 'edit' && isset($editVehicle)): ?>
+        const selectedWorkTypes = [<?php echo !empty($editVehicle['work_types']) ? implode(',', array_column($editVehicle['work_types'], 'id')) : ''; ?>];
+        <?php else: ?>
+        const selectedWorkTypes = [];
+        <?php endif; ?>
+        
+        // טעינה ראשונית
+        document.addEventListener('DOMContentLoaded', function() {
+            toggleDriversWebsiteUrl();
+            
+            <?php if ($action === 'edit' && isset($editVehicle)): ?>
+            // טעינת נתונים קיימים לעריכה
             setTimeout(() => {
                 loadSubCategories();
                 setTimeout(() => {
-                    document.getElementById('subCategory').value = '<?php echo $editVehicle['sub_category_id']; ?>';
                     loadTechnicalAttributes();
+                    
+                    // סימון אזורי פעילות שנבחרו
+                    <?php if (!empty($vehicleAreas)): ?>
+                    const selectedAreas = [<?php echo implode(',', array_column($vehicleAreas, 'id')); ?>];
+                    selectedAreas.forEach(areaId => {
+                        const checkbox = document.querySelector(`input[name="activity_areas[]"][value="${areaId}"]`);
+                        if (checkbox) checkbox.checked = true;
+                    });
+                    <?php endif; ?>
                 }, 500);
             }, 100);
-        <?php endif; ?>
+            <?php endif; ?>
+        });
+        
+        // אימות טופס מעודכן
+        document.getElementById('vehicleForm')?.addEventListener('submit', function(e) {
+            const selectedWorkTypesCount = document.querySelectorAll('input[name="work_types[]"]:checked').length;
+            
+            if (selectedWorkTypesCount === 0) {
+                e.preventDefault();
+                alert('יש לבחור לפחות תחום פעילות אחד שהרכב יכול לבצע');
+                document.getElementById('workTypesContainer').scrollIntoView({ behavior: 'smooth' });
+                return false;
+            }
+            
+            // בדיקת URL של אתר נהגים
+            const driversWebsiteCheck = document.getElementById('onDriversWebsite');
+            const driversWebsiteUrl = document.getElementById('driversWebsiteUrl');
+            
+            if (driversWebsiteCheck?.checked && (!driversWebsiteUrl.value || !driversWebsiteUrl.value.includes('nahagim.co.il'))) {
+                e.preventDefault();
+                alert('אנא הכנס קישור תקין לאתר נהגים');
+                driversWebsiteUrl.focus();
+                return false;
+            }
+        });
     </script>
 </body>
 </html>
